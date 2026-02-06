@@ -1,4 +1,4 @@
-# Baokim B2B API - Java 8+ Example
+# Baokim B2B API - Java 8+ Example 
 
 Bộ source code mẫu tích hợp Baokim B2B API, viết bằng Java 8+ với Maven.
 
