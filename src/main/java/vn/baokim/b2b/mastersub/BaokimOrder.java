@@ -19,12 +19,12 @@ public class BaokimOrder {
     public static final int PAYMENT_METHOD_VNPAY_QR = 6;
     public static final int PAYMENT_METHOD_AUTO_DEBIT = 22;
     
-    private BaokimAuth auth;
+    private String token;
     private HttpClient httpClient;
     private Gson gson;
     
-    public BaokimOrder(BaokimAuth auth) {
-        this.auth = auth;
+    public BaokimOrder(String token) {
+        this.token = token;
         this.httpClient = new HttpClient();
         this.gson = new Gson();
     }
@@ -114,7 +114,7 @@ public class BaokimOrder {
         String signature = SignatureHelper.sign(jsonBody);
         
         Map<String, String> headers = new HashMap<String, String>();
-        headers.put("Authorization", auth.getAuthorizationHeader());
+        headers.put("Authorization", "Bearer " + this.token);
         headers.put("Signature", signature);
         
         HttpClient.HttpResponse response = httpClient.post(endpoint, jsonBody, headers);

@@ -1,56 +1,29 @@
-# Java build
+# Java
 target/
 *.class
-*.jar
-*.log
 
-# IDE
+# Mobile Tools for Java (J2ME)
+.mtj.tmp/
+
+# Package Files #
+*.jar
+*.war
+*.ear
+
+# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
+hs_err_pid*
+
+# IDEs
 .idea/
 *.iml
+.classpath
+.project
+.settings/
 .vscode/
 
-# Config thực
-src/main/resources/config.local.properties
-
-# Keys
-keys/merchant_private.pem
-keys/baokim_public.pem
-
 # Logs
-logs/*.log
+logs/
+*.log
 
 # OS
 .DS_Store
-Thumbs.db
-
-# Upstream Initial Commit (PHP Template?)
-/vendor/
-node_modules/
-npm-debug.log
-yarn-error.log
-
-# Laravel 4 specific
-bootstrap/compiled.php
-app/storage/
-
-# Laravel 5 & Lumen specific
-public/storage
-public/hot
-
-# Laravel 5 & Lumen specific with changed public path
-public_html/storage
-public_html/hot
-
-storage/*.key
-.env
-Homestead.yaml
-Homestead.json
-/.vagrant
-.phpunit.result.cache
-
-/public/build
-/storage/pail
-.env.backup
-.env.production
-.phpactor.json
-auth.json

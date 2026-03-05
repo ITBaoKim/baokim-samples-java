@@ -24,7 +24,7 @@ public class UpdateVA {
             Config.load("../");
             
             BaokimAuth auth = new BaokimAuth();
-            BaokimVA vaService = new BaokimVA(auth);
+            BaokimVA vaService = new BaokimVA(auth.getToken());
             
             Map<String, Object> updateData = new HashMap<String, Object>();
             updateData.put("acc_name", "NGUYEN VAN B");

@@ -1,2 +1,9 @@
 run = "mvn -q exec:java -Dexec.mainClass=vn.baokim.b2b.TestFullFlow"
 entrypoint = "src/main/java/vn/baokim/b2b/TestFullFlow.java"
+modules = ["java-graalvm22.3"]
+
+[nix]
+channel = "stable-25_05"
+
+[agent]
+expertMode = true

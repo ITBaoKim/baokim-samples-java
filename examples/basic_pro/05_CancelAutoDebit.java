@@ -23,7 +23,7 @@ public class CancelAutoDebit {
             Config.load("../");
             
             BaokimAuth auth = new BaokimAuth();
-            BaokimOrder orderService = new BaokimOrder(auth);
+            BaokimOrder orderService = new BaokimOrder(auth.getToken());
             
             BaokimOrder.ApiResponse result = orderService.cancelAutoDebit(token);
             
