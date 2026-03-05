@@ -24,7 +24,7 @@ public class QueryTransaction {
             Config.load("../");
             
             BaokimAuth auth = new BaokimAuth();
-            BaokimVA vaService = new BaokimVA(auth);
+            BaokimVA vaService = new BaokimVA(auth.getToken());
             
             BaokimOrder.ApiResponse result = vaService.queryTransaction(accNo);
             

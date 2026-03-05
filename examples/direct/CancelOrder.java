@@ -17,7 +17,7 @@ public class CancelOrder {
             Config.load();
             
             BaokimAuth auth = BaokimAuth.forDirectConnection();
-            BaokimDirect directService = new BaokimDirect(auth);
+            BaokimDirect directService = new BaokimDirect(auth.getToken());
             
             String reason = args.length > 1 ? args[1] : "Customer requested cancellation";
             BaokimOrder.ApiResponse result = directService.cancelOrder(args[0], reason);

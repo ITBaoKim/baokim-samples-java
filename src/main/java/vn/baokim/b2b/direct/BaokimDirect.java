@@ -22,12 +22,12 @@ public class BaokimDirect {
     public static final int PAYMENT_METHOD_ATM = 4;
     public static final int PAYMENT_METHOD_QR_PAY = 6;
     
-    private BaokimAuth auth;
+    private String token;
     private HttpClient httpClient;
     private Gson gson;
     
-    public BaokimDirect(BaokimAuth auth) {
-        this.auth = auth;
+    public BaokimDirect(String token) {
+        this.token = token;
         this.httpClient = new HttpClient();
         this.gson = new Gson();
     }
@@ -132,7 +132,7 @@ public class BaokimDirect {
         String signature = SignatureHelper.sign(jsonBody);
         
         Map<String, String> headers = new HashMap<String, String>();
-        headers.put("Authorization", auth.getAuthorizationHeader());
+        headers.put("Authorization", "Bearer " + this.token);
         headers.put("Signature", signature);
         
         HttpClient.HttpResponse response = httpClient.post(endpoint, jsonBody, headers);

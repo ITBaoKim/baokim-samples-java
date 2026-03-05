@@ -14,7 +14,7 @@ public class CreateOrder {
             
             // Sử dụng Direct credentials
             BaokimAuth auth = BaokimAuth.forDirectConnection();
-            BaokimDirect directService = new BaokimDirect(auth);
+            BaokimDirect directService = new BaokimDirect(auth.getToken());
             
             String mrcOrderId = "DRT_" + System.currentTimeMillis();
             

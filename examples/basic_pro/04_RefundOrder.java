@@ -21,7 +21,7 @@ public class RefundOrder {
             Config.load("../");
             
             BaokimAuth auth = new BaokimAuth();
-            BaokimOrder orderService = new BaokimOrder(auth);
+            BaokimOrder orderService = new BaokimOrder(auth.getToken());
             
             BaokimOrder.ApiResponse result = orderService.refundOrder(mrcOrderId, amount, "Hoan tien");
             

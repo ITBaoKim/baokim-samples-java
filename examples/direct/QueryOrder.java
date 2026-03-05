@@ -17,7 +17,7 @@ public class QueryOrder {
             Config.load();
             
             BaokimAuth auth = BaokimAuth.forDirectConnection();
-            BaokimDirect directService = new BaokimDirect(auth);
+            BaokimDirect directService = new BaokimDirect(auth.getToken());
             
             BaokimOrder.ApiResponse result = directService.queryOrder(args[0]);
             

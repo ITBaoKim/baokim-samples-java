@@ -18,12 +18,12 @@ public class BaokimVA {
     public static final int VA_TYPE_DYNAMIC = 1;
     public static final int VA_TYPE_STATIC = 2;
     
-    private BaokimAuth auth;
+    private String token;
     private HttpClient httpClient;
     private Gson gson;
     
-    public BaokimVA(BaokimAuth auth) {
-        this.auth = auth;
+    public BaokimVA(String token) {
+        this.token = token;
         this.httpClient = new HttpClient();
         this.gson = new Gson();
     }
@@ -102,7 +102,7 @@ public class BaokimVA {
         String signature = SignatureHelper.sign(jsonBody);
         
         Map<String, String> headers = new HashMap<String, String>();
-        headers.put("Authorization", auth.getAuthorizationHeader());
+        headers.put("Authorization", "Bearer " + this.token);
         headers.put("Signature", signature);
         
         HttpClient.HttpResponse response = httpClient.post(endpoint, jsonBody, headers);

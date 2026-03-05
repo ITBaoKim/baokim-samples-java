@@ -131,7 +131,7 @@ import vn.baokim.b2b.mastersub.BaokimOrder;
 Config.load();
 
 BaokimAuth auth = new BaokimAuth();
-BaokimOrder orderService = new BaokimOrder(auth);
+BaokimOrder orderService = new BaokimOrder(auth.getToken());
 
 Map<String, Object> orderData = new HashMap<>();
 orderData.put("mrcOrderId", "ORDER_" + System.currentTimeMillis());
@@ -174,7 +174,7 @@ System.out.println("Success: " + result.success);
 ```java
 import vn.baokim.b2b.hosttohost.BaokimVA;
 
-BaokimVA vaService = new BaokimVA(auth);
+BaokimVA vaService = new BaokimVA(auth.getToken());
 
 BaokimOrder.ApiResponse result = vaService.createDynamicVA(
     "NGUYEN VAN A",    // Tên khách hàng
@@ -208,7 +208,7 @@ System.out.println("Success: " + result.success);
 import vn.baokim.b2b.direct.BaokimDirect;
 
 BaokimAuth directAuth = BaokimAuth.forDirectConnection();
-BaokimDirect directService = new BaokimDirect(directAuth);
+BaokimDirect directService = new BaokimDirect(directAuth.getToken());
 
 Map<String, Object> orderData = new HashMap<>();
 orderData.put("mrc_order_id", "DRT_" + System.currentTimeMillis());

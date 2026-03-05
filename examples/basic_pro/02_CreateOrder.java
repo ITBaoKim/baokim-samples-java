@@ -17,7 +17,7 @@ public class CreateOrder {
             Config.load("../");
             
             BaokimAuth auth = new BaokimAuth();
-            BaokimOrder orderService = new BaokimOrder(auth);
+            BaokimOrder orderService = new BaokimOrder(auth.getToken());
             
             String mrcOrderId = "ORDER_" + System.currentTimeMillis();
             int amount = 350000;

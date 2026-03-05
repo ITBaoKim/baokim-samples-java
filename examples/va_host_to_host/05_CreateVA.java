@@ -15,7 +15,7 @@ public class CreateVA {
             Config.load("../");
             
             BaokimAuth auth = new BaokimAuth();
-            BaokimVA vaService = new BaokimVA(auth);
+            BaokimVA vaService = new BaokimVA(auth.getToken());
             
             String mrcOrderId = "VA_" + System.currentTimeMillis();
             int amount = 500000;
