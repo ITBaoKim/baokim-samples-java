@@ -252,7 +252,6 @@ System.out.println("Success: " + result.success);
 ## 🔷 API 9: Tạo Virtual Account - VA (Merchant Hosted / Direct)
 
 > ⚠️ Merchant Hosted dùng credentials riêng (`direct_client_id`, `direct_client_secret`).
-> Khác với Host-to-Host (Master/Sub), Merchant Hosted dùng `merchant_code` thay vì `master_merchant_code` + `sub_merchant_code`.
 
 ```java
 import vn.baokim.b2b.*;
