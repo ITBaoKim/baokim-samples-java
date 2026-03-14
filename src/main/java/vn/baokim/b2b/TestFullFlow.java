@@ -17,13 +17,17 @@ import vn.baokim.b2b.direct.BaokimDirect;
  * - direct: Direct Order APIs (Create, Query, Cancel)
  * 
  * Usage:
- *   mvn exec:java -Dexec.mainClass="vn.baokim.b2b.TestFullFlow" [-Dexec.args="connection_type"]
+ * mvn exec:java -Dexec.mainClass="vn.baokim.b2b.TestFullFlow"
+ * [-Dexec.args="connection_type"]
  * 
  * Examples:
- *   mvn exec:java -Dexec.mainClass="vn.baokim.b2b.TestFullFlow"                    # Run all
- *   mvn exec:java -Dexec.mainClass="vn.baokim.b2b.TestFullFlow" -Dexec.args="basic_pro"
- *   mvn exec:java -Dexec.mainClass="vn.baokim.b2b.TestFullFlow" -Dexec.args="host_to_host"
- *   mvn exec:java -Dexec.mainClass="vn.baokim.b2b.TestFullFlow" -Dexec.args="direct"
+ * mvn exec:java -Dexec.mainClass="vn.baokim.b2b.TestFullFlow" # Run all
+ * mvn exec:java -Dexec.mainClass="vn.baokim.b2b.TestFullFlow"
+ * -Dexec.args="basic_pro"
+ * mvn exec:java -Dexec.mainClass="vn.baokim.b2b.TestFullFlow"
+ * -Dexec.args="host_to_host"
+ * mvn exec:java -Dexec.mainClass="vn.baokim.b2b.TestFullFlow"
+ * -Dexec.args="direct"
  */
 public class TestFullFlow {
 
@@ -79,11 +83,13 @@ public class TestFullFlow {
                 orderData.put("mrcOrderId", mrcOrderId);
                 orderData.put("totalAmount", 100000);
                 orderData.put("description", "Test order " + mrcOrderId);
-                orderData.put("customerInfo", BaokimOrder.buildCustomerInfo("NGUYEN VAN A", "test@example.com", "0901234567", "123 Test Street"));
+                orderData.put("customerInfo", BaokimOrder.buildCustomerInfo("NGUYEN VAN A", "test@example.com",
+                        "0901234567", "123 Test Street"));
 
                 BaokimOrder.ApiResponse orderResult = orderService.createOrder(orderData);
                 results.get("basic_pro").put("create_order", orderResult.success);
-                System.out.println("   Create Order: " + (orderResult.success ? "✅ " + mrcOrderId : "❌ " + orderResult.message));
+                System.out.println(
+                        "   Create Order: " + (orderResult.success ? "✅ " + mrcOrderId : "❌ " + orderResult.message));
 
                 // Query Order
                 BaokimOrder.ApiResponse queryResult = orderService.queryOrder(mrcOrderId);
@@ -108,7 +114,8 @@ public class TestFullFlow {
 
                 BaokimOrder.ApiResponse autoDebitResult = orderService.createOrder(autoDebitData);
                 results.get("basic_pro").put("auto_debit", autoDebitResult.success);
-                System.out.println("   Auto Debit: " + (autoDebitResult.success ? "✅ " + autoDebitOrderId : "❌ " + autoDebitResult.message) + "\n");
+                System.out.println("   Auto Debit: "
+                        + (autoDebitResult.success ? "✅ " + autoDebitOrderId : "❌ " + autoDebitResult.message) + "\n");
             }
 
             // ============================================================
@@ -125,7 +132,8 @@ public class TestFullFlow {
                 String vaOrderId = "DVA" + (System.currentTimeMillis() % 10000000000L) + new Random().nextInt(999);
                 BaokimOrder.ApiResponse vaResult = vaService.createDynamicVA("NGUYEN VAN A", vaOrderId, 100000, "");
                 results.get("host_to_host").put("dynamic_va", vaResult.success);
-                String vaNumber = vaResult.success && vaResult.data != null ? vaResult.data.get("acc_no").getAsString() : null;
+                String vaNumber = vaResult.success && vaResult.data != null ? vaResult.data.get("acc_no").getAsString()
+                        : null;
                 System.out.println("   Dynamic VA: " + (vaResult.success ? "✅ " + vaNumber : "❌ " + vaResult.message));
 
                 // Create Static VA
@@ -135,17 +143,22 @@ public class TestFullFlow {
                 Calendar cal = Calendar.getInstance();
                 cal.add(Calendar.DAY_OF_MONTH, 30);
                 String expireDate = sdf.format(cal.getTime());
-                
-                BaokimOrder.ApiResponse staticResult = vaService.createStaticVA("TRAN VAN B", staticOrderId, expireDate, 10000, 10000000);
+
+                BaokimOrder.ApiResponse staticResult = vaService.createStaticVA("TRAN VAN B", staticOrderId, expireDate,
+                        10000, 10000000);
                 results.get("host_to_host").put("static_va", staticResult.success);
-                String staticVaNumber = staticResult.success && staticResult.data != null ? staticResult.data.get("acc_no").getAsString() : null;
-                System.out.println("   Static VA: " + (staticResult.success ? "✅ " + staticVaNumber : "❌ " + staticResult.message));
+                String staticVaNumber = staticResult.success && staticResult.data != null
+                        ? staticResult.data.get("acc_no").getAsString()
+                        : null;
+                System.out.println("   Static VA: "
+                        + (staticResult.success ? "✅ " + staticVaNumber : "❌ " + staticResult.message));
 
                 // Query VA
                 if (vaNumber != null) {
                     BaokimOrder.ApiResponse queryVaResult = vaService.queryTransaction(vaNumber);
                     results.get("host_to_host").put("query_va", queryVaResult.success);
-                    System.out.println("   Query VA: " + (queryVaResult.success ? "✅" : "❌ " + queryVaResult.message) + "\n");
+                    System.out.println(
+                            "   Query VA: " + (queryVaResult.success ? "✅" : "❌ " + queryVaResult.message) + "\n");
                 } else {
                     results.get("host_to_host").put("query_va", false);
                     System.out.println("   Query VA: ⏭️ Skipped\n");
@@ -180,12 +193,14 @@ public class TestFullFlow {
 
                 BaokimOrder.ApiResponse directOrderResult = directService.createOrder(directOrderData);
                 results.get("direct").put("create_order", directOrderResult.success);
-                System.out.println("   Create Order: " + (directOrderResult.success ? "✅ " + directOrderId : "❌ " + directOrderResult.message));
+                System.out.println("   Create Order: "
+                        + (directOrderResult.success ? "✅ " + directOrderId : "❌ " + directOrderResult.message));
 
                 // Query Order
                 BaokimOrder.ApiResponse directQueryResult = directService.queryOrder(directOrderId);
                 results.get("direct").put("query_order", directQueryResult.success);
-                System.out.println("   Query Order: " + (directQueryResult.success ? "✅" : "❌ " + directQueryResult.message));
+                System.out.println(
+                        "   Query Order: " + (directQueryResult.success ? "✅" : "❌ " + directQueryResult.message));
 
                 // Cancel Order
                 String cancelOrderId = "CXL" + (System.currentTimeMillis() % 10000000000L) + new Random().nextInt(999);
@@ -199,7 +214,8 @@ public class TestFullFlow {
                 if (cancelCreateResult.success) {
                     BaokimOrder.ApiResponse cancelResult = directService.cancelOrder(cancelOrderId, "Test cancel");
                     results.get("direct").put("cancel_order", cancelResult.success);
-                    System.out.println("   Cancel Order: " + (cancelResult.success ? "✅" : "❌ " + cancelResult.message) + "\n");
+                    System.out.println(
+                            "   Cancel Order: " + (cancelResult.success ? "✅" : "❌ " + cancelResult.message) + "\n");
                 } else {
                     results.get("direct").put("cancel_order", false);
                     System.out.println("   Cancel Order: ❌ Could not create order\n");
