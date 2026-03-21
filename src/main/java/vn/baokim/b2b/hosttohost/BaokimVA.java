@@ -6,6 +6,8 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 import vn.baokim.b2b.*;
 import vn.baokim.b2b.dto.CreateVARequest;
+import vn.baokim.b2b.dto.QueryVARequest;
+import vn.baokim.b2b.dto.UpdateVARequest;
 import vn.baokim.b2b.mastersub.BaokimOrder;
 
 /**
@@ -75,29 +77,37 @@ public class BaokimVA {
     
     /**
      * Cập nhật VA
+     * 
+     * @param request DTO chứa thông tin cập nhật VA
      */
-    public BaokimOrder.ApiResponse updateVA(String accNo, Map<String, Object> updateData) throws Exception {
+    public BaokimOrder.ApiResponse updateVA(UpdateVARequest request) throws Exception {
         Map<String, Object> requestBody = new LinkedHashMap<String, Object>();
         requestBody.put("request_id", generateRequestId("VA_UPD"));
         requestBody.put("request_time", formatDateTime());
         requestBody.put("master_merchant_code", Config.get("master_merchant_code"));
         requestBody.put("sub_merchant_code", Config.get("sub_merchant_code"));
-        requestBody.put("acc_no", accNo);
-        requestBody.putAll(updateData);
+        requestBody.put("acc_no", request.getAccNo());
+        if (request.getAccName() != null) requestBody.put("acc_name", request.getAccName());
+        if (request.getCollectAmountMin() != null) requestBody.put("collect_amount_min", request.getCollectAmountMin());
+        if (request.getCollectAmountMax() != null) requestBody.put("collect_amount_max", request.getCollectAmountMax());
+        if (request.getExpireDate() != null) requestBody.put("expire_date", request.getExpireDate());
+        if (request.getDescription() != null) requestBody.put("description", request.getDescription());
         
         return sendRequest(ENDPOINT_UPDATE_VA, requestBody);
     }
     
     /**
      * Tra cứu giao dịch VA
+     * 
+     * @param request DTO chứa thông tin tra cứu
      */
-    public BaokimOrder.ApiResponse queryTransaction(String accNo) throws Exception {
+    public BaokimOrder.ApiResponse queryTransaction(QueryVARequest request) throws Exception {
         Map<String, Object> requestBody = new LinkedHashMap<String, Object>();
         requestBody.put("request_id", generateRequestId("VA_QRY"));
         requestBody.put("request_time", formatDateTime());
         requestBody.put("master_merchant_code", Config.get("master_merchant_code"));
         requestBody.put("sub_merchant_code", Config.get("sub_merchant_code"));
-        requestBody.put("acc_no", accNo);
+        requestBody.put("acc_no", request.getAccNo());
         
         return sendRequest(ENDPOINT_QUERY_TRANSACTION, requestBody);
     }

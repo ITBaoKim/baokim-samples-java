@@ -5,7 +5,9 @@ import com.google.gson.JsonObject;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import vn.baokim.b2b.*;
+import vn.baokim.b2b.dto.CancelAutoDebitRequest;
 import vn.baokim.b2b.dto.CreateOrderRequest;
+import vn.baokim.b2b.dto.QueryOrderRequest;
 import vn.baokim.b2b.dto.RefundRequest;
 
 /**
@@ -69,14 +71,16 @@ public class BaokimOrder {
     
     /**
      * Tra cứu đơn hàng
+     * 
+     * @param request DTO chứa thông tin tra cứu
      */
-    public ApiResponse queryOrder(String mrcOrderId) throws Exception {
+    public ApiResponse queryOrder(QueryOrderRequest request) throws Exception {
         Map<String, Object> requestBody = new LinkedHashMap<String, Object>();
         requestBody.put("request_id", generateRequestId());
         requestBody.put("request_time", formatDateTime());
         requestBody.put("master_merchant_code", Config.get("master_merchant_code"));
         requestBody.put("sub_merchant_code", Config.get("sub_merchant_code"));
-        requestBody.put("mrc_order_id", mrcOrderId);
+        requestBody.put("mrc_order_id", request.getMrcOrderId());
         
         return sendRequest(ENDPOINT_QUERY_ORDER, requestBody);
     }
@@ -101,16 +105,18 @@ public class BaokimOrder {
     
     /**
      * Hủy thu hộ tự động
+     * 
+     * @param request DTO chứa token và URLs
      */
-    public ApiResponse cancelAutoDebit(String token) throws Exception {
+    public ApiResponse cancelAutoDebit(CancelAutoDebitRequest request) throws Exception {
         Map<String, Object> requestBody = new LinkedHashMap<String, Object>();
         requestBody.put("request_id", generateRequestId());
         requestBody.put("request_time", formatDateTime());
         requestBody.put("master_merchant_code", Config.get("master_merchant_code"));
         requestBody.put("sub_merchant_code", Config.get("sub_merchant_code"));
-        requestBody.put("url_success", Config.get("url_success"));
-        requestBody.put("url_fail", Config.get("url_fail"));
-        requestBody.put("token", token);
+        requestBody.put("url_success", request.getUrlSuccess() != null ? request.getUrlSuccess() : Config.get("url_success"));
+        requestBody.put("url_fail", request.getUrlFail() != null ? request.getUrlFail() : Config.get("url_fail"));
+        requestBody.put("token", request.getToken());
         
         return sendRequest(ENDPOINT_CANCEL_AUTO_DEBIT, requestBody);
     }

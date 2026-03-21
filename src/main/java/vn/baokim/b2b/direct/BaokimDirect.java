@@ -3,8 +3,10 @@ package vn.baokim.b2b.direct;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import vn.baokim.b2b.*;
+import vn.baokim.b2b.dto.CancelOrderRequest;
 import vn.baokim.b2b.dto.DirectCreateOrderRequest;
 import vn.baokim.b2b.dto.CustomerInfo;
+import vn.baokim.b2b.dto.QueryOrderRequest;
 import vn.baokim.b2b.mastersub.BaokimOrder;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -95,9 +97,11 @@ public class BaokimDirect {
     
     /**
      * Tra cứu đơn hàng
+     * 
+     * @param request DTO chứa thông tin tra cứu
      */
-    public BaokimOrder.ApiResponse queryOrder(String mrcOrderId) throws Exception {
-        if (mrcOrderId == null || mrcOrderId.isEmpty()) {
+    public BaokimOrder.ApiResponse queryOrder(QueryOrderRequest request) throws Exception {
+        if (request.getMrcOrderId() == null || request.getMrcOrderId().isEmpty()) {
             throw new Exception("Missing required field: mrc_order_id");
         }
         
@@ -105,16 +109,18 @@ public class BaokimDirect {
         requestBody.put("request_id", generateRequestId("QRY"));
         requestBody.put("request_time", formatDateTime());
         requestBody.put("merchant_code", Config.get("direct_merchant_code", Config.get("merchant_code")));
-        requestBody.put("mrc_order_id", mrcOrderId);
+        requestBody.put("mrc_order_id", request.getMrcOrderId());
         
         return sendRequest(ENDPOINT_QUERY_ORDER, requestBody);
     }
     
     /**
      * Hủy đơn hàng
+     * 
+     * @param request DTO chứa thông tin hủy đơn
      */
-    public BaokimOrder.ApiResponse cancelOrder(String mrcOrderId, String reason) throws Exception {
-        if (mrcOrderId == null || mrcOrderId.isEmpty()) {
+    public BaokimOrder.ApiResponse cancelOrder(CancelOrderRequest request) throws Exception {
+        if (request.getMrcOrderId() == null || request.getMrcOrderId().isEmpty()) {
             throw new Exception("Missing required field: mrc_order_id");
         }
         
@@ -122,11 +128,11 @@ public class BaokimDirect {
         requestBody.put("request_id", generateRequestId("CANCEL"));
         requestBody.put("request_time", formatDateTime());
         requestBody.put("merchant_code", Config.get("direct_merchant_code", Config.get("merchant_code")));
-        requestBody.put("mrc_order_id", mrcOrderId);
+        requestBody.put("mrc_order_id", request.getMrcOrderId());
         
         // Chỉ thêm reason nếu có giá trị
-        if (reason != null && !reason.isEmpty()) {
-            requestBody.put("reason", reason);
+        if (request.getReason() != null && !request.getReason().isEmpty()) {
+            requestBody.put("reason", request.getReason());
         }
         
         return sendRequest(ENDPOINT_CANCEL_ORDER, requestBody);

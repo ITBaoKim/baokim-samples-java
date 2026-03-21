@@ -91,7 +91,7 @@ public class TestFullFlow {
                         "   Create Order: " + (orderResult.success ? "✅ " + mrcOrderId : "❌ " + orderResult.message));
 
                 // Query Order
-                BaokimOrder.ApiResponse queryResult = orderService.queryOrder(mrcOrderId);
+                BaokimOrder.ApiResponse queryResult = orderService.queryOrder(new QueryOrderRequest(mrcOrderId));
                 results.get("basic_pro").put("query_order", queryResult.success);
                 System.out.println("   Query Order: " + (queryResult.success ? "✅" : "❌ " + queryResult.message));
 
@@ -160,7 +160,7 @@ public class TestFullFlow {
 
                 // Query VA
                 if (vaNumber != null) {
-                    BaokimOrder.ApiResponse queryVaResult = vaService.queryTransaction(vaNumber);
+                    BaokimOrder.ApiResponse queryVaResult = vaService.queryTransaction(new QueryVARequest(vaNumber));
                     results.get("host_to_host").put("query_va", queryVaResult.success);
                     System.out.println(
                             "   Query VA: " + (queryVaResult.success ? "✅" : "❌ " + queryVaResult.message) + "\n");
@@ -196,7 +196,7 @@ public class TestFullFlow {
                         + (directOrderResult.success ? "✅ " + directOrderId : "❌ " + directOrderResult.message));
 
                 // Query Order
-                BaokimOrder.ApiResponse directQueryResult = directService.queryOrder(directOrderId);
+                BaokimOrder.ApiResponse directQueryResult = directService.queryOrder(new QueryOrderRequest(directOrderId));
                 results.get("direct").put("query_order", directQueryResult.success);
                 System.out.println(
                         "   Query Order: " + (directQueryResult.success ? "✅" : "❌ " + directQueryResult.message));
@@ -211,7 +211,7 @@ public class TestFullFlow {
 
                 BaokimOrder.ApiResponse cancelCreateResult = directService.createOrder(cancelOrderRequest);
                 if (cancelCreateResult.success) {
-                    BaokimOrder.ApiResponse cancelResult = directService.cancelOrder(cancelOrderId, "Test cancel");
+                    BaokimOrder.ApiResponse cancelResult = directService.cancelOrder(new CancelOrderRequest(cancelOrderId, "Test cancel"));
                     results.get("direct").put("cancel_order", cancelResult.success);
                     System.out.println(
                             "   Cancel Order: " + (cancelResult.success ? "✅" : "❌ " + cancelResult.message) + "\n");
